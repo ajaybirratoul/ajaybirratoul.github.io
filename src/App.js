@@ -57,7 +57,7 @@ function App() {
             Software Engineer Intern @ <Link href={faire}>Faire</Link>
           </Typography>
           <Typography variant="h5">
-            Computer Science @ <Link href={uwaterloo}>UWaterloo</Link>, | Prev @{' '}
+            Computer Science @ <Link href={uwaterloo}>UWaterloo</Link> | Prev @{' '}
             <Link href={uptake}>Uptake</Link>,{' '}
             <Link href={spotwork}>Spotwork</Link>
           </Typography>
