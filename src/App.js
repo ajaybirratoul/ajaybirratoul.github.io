@@ -1,3 +1,4 @@
+import * as React from 'react';
 import './App.css';
 import {
   createTheme,
@@ -7,25 +8,12 @@ import {
   Grid,
   Container,
   Link,
+  Box,
+  IconButton,
 } from '@mui/material';
 
-const theme = createTheme({
-  typography: {
-    fontFamily: [
-      'Carlito',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-  },
-});
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 function App() {
   const email = 'mailto:ajaysratoul@gmail.com';
@@ -38,6 +26,58 @@ function App() {
   const spotwork = 'https://spotwork.co/';
   const uptake = 'https://www.uptake.com/';
 
+  const startingTheme = React.useMemo(() => {
+    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    if (darkThemeMq.matches) {
+      return 'dark';
+    } else {
+      return 'light';
+    }
+  }, []);
+
+  const [mode, setMode] = React.useState(startingTheme);
+
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    []
+  );
+
+  const baseThemeProps = React.useMemo(
+    () => ({
+      typography: {
+        fontFamily: [
+          'Carlito',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+      },
+    }),
+    []
+  );
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        ...baseThemeProps,
+        palette: {
+          mode,
+        },
+      }),
+    [mode, baseThemeProps]
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -49,6 +89,21 @@ function App() {
           height: '100vh',
         }}
       >
+        <Box
+          sx={{
+            position: 'fixed',
+            right: '2rem',
+            top: '2rem',
+          }}
+        >
+          <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === 'dark' ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>
+        </Box>
         <Grid display="flex" flexDirection="column" gap="1rem">
           <Typography variant="h2" fontWeight="bold">
             Ajaybir Ratoul
